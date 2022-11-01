@@ -1,0 +1,47 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+      with:
+        submodules: true
+        
+    # ssh 로 ec2 접속하여 directory 생성
+    - name: create remote directory
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        script: |
+          sudo rm -rf /home/ec2-user/nanal-test
+          mkdir -p /home/ec2-user/nanal-test
+          
+    # github code -> ec2
+    - name: copy source via ssh key
+      uses: burnett01/rsync-deployments@4.1
+      with:
+        switches: -avzr --delete
+        remote_path: /home/ec2-user/nanal-test
+        remote_host: ${{ secrets.HOST }}
+        remote_user: ${{ secrets.USERNAME }}
+        remote_key: ${{ secrets.KEY }}
+        
+    # ssh 로 ec2 접속하여 script 실행
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        script: |
+          sh /home/ec2-user/nanal-test/scripts/deploy.sh

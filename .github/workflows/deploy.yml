@@ -13,6 +13,7 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v3
       with:
+        token: ${{ secrets.TOKEN }}
         submodules: true
         
     # ssh 로 ec2 접속하여 directory 생성

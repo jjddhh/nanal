@@ -24,15 +24,15 @@ jobs:
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.KEY }}
         script: |
-          sudo rm -rf /home/ec2-user/nanal-test
-          mkdir -p /home/ec2-user/nanal-test
+          sudo rm -rf /home/ec2-user/nanal
+          mkdir -p /home/ec2-user/nanal
           
     # github code -> ec2
     - name: copy source via ssh key
       uses: burnett01/rsync-deployments@4.1
       with:
         switches: -avzr --delete
-        remote_path: /home/ec2-user/nanal-test
+        remote_path: /home/ec2-user/nanal
         remote_host: ${{ secrets.HOST }}
         remote_user: ${{ secrets.USERNAME }}
         remote_key: ${{ secrets.KEY }}
@@ -45,4 +45,4 @@ jobs:
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.KEY }}
         script: |
-          sh /home/ec2-user/nanal-test/scripts/deploy.sh
+          sh /home/ec2-user/nanal/scripts/deploy.sh

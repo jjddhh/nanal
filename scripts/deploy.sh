@@ -19,18 +19,19 @@ then
   sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 fi
 
-echo "create build file"
-cd /home/ec2-user/nanal
-sudo chmod +x ./gradlew
-./gradlew build
-
 echo "start docker"
+sudo usermod -aG docker ec2-user
 sudo service docker start
 
 echo "stop containers and delete containers and images"
 docker stop $(docker ps -a -q)
 docker rm $(docker ps -a -q)
 docker rmi $(docker images -q)
+
+echo "create build file"
+cd /home/ec2-user/nanal
+sudo chmod +x ./gradlew
+./gradlew build
 
 echo "start docker-compose up: ubuntu"
 sudo docker-compose -f /home/ec2-user/nanal/docker-compose.yml up --build -d

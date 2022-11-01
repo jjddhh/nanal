@@ -24,15 +24,15 @@ public class TokenService {
 
     @Value("${jwt.token.refresh-token-expire-length}")
     private long refresh_token_expire_time;
+    @Value("${jwt.token.secret}")
     private String secretKey;
     
     private final MemberRepository memberRepository;
     private final RedisTemplate<String, String> redisTemplate;
 
     @PostConstruct
-    protected void init(
-            @Value("${jwt.token.secret}") String secretKey) {
-        this.secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
+    protected void init() {
+        this.secretKey = Base64.getEncoder().encodeToString(this.secretKey.getBytes());
     }
 
     public Token generateToken(String uid) {

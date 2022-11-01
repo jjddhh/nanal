@@ -12,6 +12,14 @@ jar {
     enabled = false
 }
 
+task copyPrivate(type: Copy) {
+    copy {
+        from './nanal-private'
+        include "*.yml"
+        into 'src/main/resources'
+    }
+}
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor

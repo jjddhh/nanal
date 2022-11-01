@@ -1,0 +1,3 @@
+[submodule "nanal-private"]
+	path = nanal-private
+	url = https://github.com/jjddhh/nanal-private.git

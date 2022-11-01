@@ -33,4 +33,4 @@ docker rm $(docker ps -a -q)
 docker rmi $(docker images -q)
 
 echo "start docker-compose up: ubuntu"
-sudo docker-compose -f /home/ec2-user/nanal-test/docker-compose.yml up --build -d
+sudo docker-compose -f /home/ec2-user/nanal/docker-compose.yml up --build -d

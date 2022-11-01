@@ -20,7 +20,7 @@ then
 fi
 
 echo "create build file"
-cd /home/ec2-user/nanal-test
+cd /home/ec2-user/nanal
 sudo chmod +x ./gradlew
 ./gradlew build
 

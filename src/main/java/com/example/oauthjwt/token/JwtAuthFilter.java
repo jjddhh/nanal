@@ -28,7 +28,7 @@ public class JwtAuthFilter extends GenericFilterBean { // GenericFilterBean => O
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        String token = ((HttpServletRequest)request).getHeader("Auth");
+        String token = ((HttpServletRequest)request).getHeader("Token");
 
         if (token != null && tokenService.verifyToken(token)) {
             // 토큰 파싱해서 email 정보 가져오기

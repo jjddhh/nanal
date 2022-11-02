@@ -12,6 +12,7 @@ jar {
     enabled = false
 }
 
+/*
 task copyPrivate(type: Copy) {
     copy {
         from './nanal-private'
@@ -19,6 +20,7 @@ task copyPrivate(type: Copy) {
         into 'src/main/resources'
     }
 }
+*/
 
 configurations {
     compileOnly {

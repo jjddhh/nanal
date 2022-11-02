@@ -4,6 +4,7 @@ import com.example.oauthjwt.entity.MemberRepository;
 import com.example.oauthjwt.token.Token;
 import com.example.oauthjwt.token.TokenService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @RequiredArgsConstructor
 @Controller
 public class TestController {
@@ -22,10 +24,17 @@ public class TestController {
 
     private final RedisTemplate<String, String> redisTemplate;
 
-    @GetMapping("/test")
-    public String test() {
-        System.out.println("here");
+    @GetMapping("/main")
+    public String main() {
+        log.info("hi");
         return "index.html";
+    }
+
+    @ResponseBody
+    @GetMapping("/auth")
+    public String auth() {
+        log.info("hi auth user");
+        return "auth success";
     }
 
     @ResponseBody

@@ -79,7 +79,7 @@ public class TokenService {
 
     public Token tokenReissue(String token) {
         String email = getUid(token);
-        // email 에 해당하는 refreshToken 가져오기
+        // email 에 해당하는 refreshToken redis 에서 가져오기
         String storedRefreshToken = redisTemplate.opsForValue().get(email);
         // email 에 해당하는 refreshToken 이 없거나 일치하지 않을 때
         if(storedRefreshToken == null || !storedRefreshToken.equals(token)) throw new RuntimeException();

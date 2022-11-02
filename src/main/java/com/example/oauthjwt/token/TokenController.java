@@ -18,9 +18,9 @@ public class TokenController {
         throw new RuntimeException();
     }
 
-    @GetMapping("/token/refresh")
+    @GetMapping("/token/reissue")
     public Token refreshAuth(HttpServletRequest request, HttpServletResponse response) {
-        String token = request.getHeader("Refresh");
+        String token = request.getHeader("RefreshToken");
 
         // refresh 토큰이 유효한지 확인
         if (token != null && tokenService.verifyToken(token)) {
@@ -31,6 +31,7 @@ public class TokenController {
             return reissueToken;
         }
 
+        // refresh 토큰이 유효하지 않을 경우
         throw new RuntimeException();
     }
 }

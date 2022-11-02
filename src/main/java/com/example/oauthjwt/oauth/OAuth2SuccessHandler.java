@@ -64,8 +64,8 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     private void writeTokenResponse(HttpServletResponse response, Token token)
             throws IOException {
 
-        response.addHeader("Auth", token.getToken());
-        response.addHeader("Refresh", token.getRefreshToken());
+        response.addHeader("Token", token.getToken());
+        response.addHeader("RefreshToken", token.getRefreshToken());
         response.setContentType("application/json;charset=UTF-8");
 
         // Httpbody에 json 형태로 토큰 내용 추가

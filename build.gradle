@@ -21,7 +21,6 @@ task copyPrivate(type: Copy) {
     }
 }
 
-
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
@@ -53,6 +52,9 @@ dependencies {
 
     // Redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+    // Swagger
+    implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.9'
 
 }
 

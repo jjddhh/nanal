@@ -24,6 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         http.httpBasic().disable()
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -34,8 +35,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(authenticationEntryPoint)
 
                 .and()
-                .authorizeRequests()
-                .antMatchers("/token/**", "/main").permitAll()
+                .authorizeRequests().antMatchers("/token/**", "/main").permitAll().and()
+                // Swagger 접속 정보
+                .authorizeRequests().antMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                 .anyRequest().authenticated()
 
                 .and()

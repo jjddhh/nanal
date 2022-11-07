@@ -19,6 +19,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -28,7 +29,6 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
     private final MemberRepository memberRepository;
     private final TokenService tokenService;
-    private final UserRequestMapper userRequestMapper;
     private final ObjectMapper objectMapper;
     private final RedisTemplate<String, String> redisTemplate;
 
@@ -36,15 +36,20 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
             throws IOException, ServletException {
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-        UserDto userDto = userRequestMapper.toDto(oAuth2User);
+        UserDto userDto = UserDto.toDto(oAuth2User);
 
         // 최초 로그인이라면 회원가입 처리를 한다.
         if (memberRepository.findByEmail(userDto.getEmail()).isEmpty()) {
             Member newMember = Member.builder()
-                                .name(userDto.getName())
-                                .email(userDto.getEmail())
-                                .role(Member.Role.USER)
-                                .build();
+                    .provider(userDto.getProvider())
+                    .name(userDto.getName())
+                    .email(userDto.getEmail())
+                    // 당일로 회고일 설정
+                    .retrospectDay(LocalDate.now().getDayOfWeek())
+                    .resetAvail(Boolean.TRUE)
+                    .nickname("Anonymous User")
+                    .role(Member.Role.USER)
+                    .build();
             memberRepository.save(newMember);
         }
 

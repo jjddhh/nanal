@@ -14,7 +14,10 @@ import java.util.Map;
 class OAuth2Attribute {
     private Map<String, Object> attributes;
     private String attributeKey;
+
     private String email;
+
+    private String provider;
     private String name;
     private String picture;
 
@@ -22,19 +25,20 @@ class OAuth2Attribute {
                               Map<String, Object> attributes) {
         switch (provider) {
             case "google":
-                return ofGoogle(attributeKey, attributes);
+                return ofGoogle(attributeKey, attributes, provider);
             case "kakao":
-                return ofKakao("email", attributes);
+                return ofKakao("email", attributes, provider);
             case "naver":
-                return ofNaver("id", attributes);
+                return ofNaver("id", attributes, provider);
             default:
                 throw new RuntimeException();
         }
     }
 
     private static OAuth2Attribute ofGoogle(String attributeKey,
-                                            Map<String, Object> attributes) {
+                                            Map<String, Object> attributes, String provider) {
         return OAuth2Attribute.builder()
+                .provider(provider)
                 .name((String) attributes.get("name"))
                 .email((String) attributes.get("email"))
                 .attributes(attributes)
@@ -43,11 +47,12 @@ class OAuth2Attribute {
     }
 
     private static OAuth2Attribute ofKakao(String attributeKey,
-                                           Map<String, Object> attributes) {
+                                           Map<String, Object> attributes, String provider) {
         Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
         Map<String, Object> kakaoProfile = (Map<String, Object>) kakaoAccount.get("profile");
 
         return OAuth2Attribute.builder()
+                .provider(provider)
                 .name((String) kakaoProfile.get("nickname"))
                 .email((String) kakaoAccount.get("email"))
                 .attributes(kakaoAccount)
@@ -56,10 +61,11 @@ class OAuth2Attribute {
     }
 
     private static OAuth2Attribute ofNaver(String attributeKey,
-                                           Map<String, Object> attributes) {
+                                           Map<String, Object> attributes, String provider) {
         Map<String, Object> response = (Map<String, Object>) attributes.get("response");
 
         return OAuth2Attribute.builder()
+                .provider(provider)
                 .name((String) response.get("name"))
                 .email((String) response.get("email"))
                 .attributes(response)
@@ -73,6 +79,7 @@ class OAuth2Attribute {
         map.put("key", attributeKey);
         map.put("name", name);
         map.put("email", email);
+        map.put("provider", provider);
         map.put("picture", picture);
 
         return map;

@@ -41,13 +41,6 @@ public class TestController {
     @GetMapping("/redis/test")
     public String store() {
 
-        /*redisTemplate.opsForValue().set(
-                "test",
-                "Exist",
-                refresh_token_expire_time,
-                TimeUnit.MILLISECONDS
-        );*/
-
         // given
         ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
         String key = "why";

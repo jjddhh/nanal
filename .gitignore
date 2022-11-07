@@ -8,6 +8,7 @@ build/
 ### CUSTOM ###
 application.yml
 build.gradle
+*.ts
 
 ### STS ###
 .apt_generated
